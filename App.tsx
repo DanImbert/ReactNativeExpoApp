@@ -169,7 +169,7 @@ export default function App() {
       ))}
       <View style={styles.proTip}>
         <Text style={styles.tipTitle}>Pro tip</Text>
-        <Text style={styles.tipText}>Split each session into goal -> attempt -> reflection. Ship small improvements every day.</Text>
+        <Text style={styles.tipText}>Split each session into goal {'->'} attempt {'->'} reflection. Ship small improvements every day.</Text>
       </View>
     </View>
   );
