@@ -12,11 +12,13 @@ const tabs: FocusArea[] = ['Roadmap', 'Tuner', 'Practice', 'Analytics'];
 
 export function TabBar({ value, onChange }: TabBarProps) {
   return (
-    <View style={styles.tabRow}>
+    <View accessibilityRole="tablist" style={styles.tabRow}>
       {tabs.map((tab) => (
         <Pressable
           key={tab}
-          accessibilityRole="button"
+          accessibilityRole="tab"
+          accessibilityLabel={`${tab} tab`}
+          accessibilityHint={`Shows the ${tab.toLowerCase()} section`}
           accessibilityState={{ selected: value === tab }}
           onPress={() => onChange(tab)}
           style={[styles.tab, value === tab && styles.activeTab]}

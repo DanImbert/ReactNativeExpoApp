@@ -146,6 +146,13 @@ export default function App() {
       <Text style={styles.subtitle}>
         A compact practice app concept focused on feedback, routine, and progress.
       </Text>
+      <View style={styles.reviewCard}>
+        <Text style={styles.reviewTitle}>Review focus</Text>
+        <Text style={styles.reviewText}>
+          This sample is meant to show compact React Native product work: stateful flows,
+          local persistence, and clear code organization.
+        </Text>
+      </View>
       <TabBar value={view} onChange={setView} />
     </View>
   );
@@ -162,6 +169,8 @@ export default function App() {
         <TextInput
           style={styles.input}
           placeholder="Add a new practice goal"
+          accessibilityLabel="New practice goal"
+          accessibilityHint="Enter a short description for a new roadmap item"
           value={newPlan}
           onChangeText={setNewPlan}
           returnKeyType="done"
@@ -170,7 +179,14 @@ export default function App() {
         <Button title="Add" onPress={addPlan} />
       </View>
       {plans.map((plan) => (
-        <Pressable key={plan.id} style={styles.planRow} onPress={() => togglePlan(plan.id)}>
+        <Pressable
+          key={plan.id}
+          accessibilityRole="button"
+          accessibilityLabel={`${plan.title}, ${plan.completed ? 'done' : 'open'}`}
+          accessibilityHint="Toggles the completion state of this roadmap item"
+          style={styles.planRow}
+          onPress={() => togglePlan(plan.id)}
+        >
           <View style={styles.planLeft}>
             <Text style={styles.planTitle}>{plan.title}</Text>
             <Text style={styles.planHint}>
@@ -200,6 +216,9 @@ export default function App() {
           {strings.map((string) => (
             <Pressable
               key={string.name}
+              accessibilityRole="button"
+              accessibilityLabel={`Tune ${string.name}`}
+              accessibilityHint="Sets the selected string for the tuner"
               style={[styles.stringButton, selectedString.name === string.name && styles.stringButtonActive]}
               onPress={() => {
                 setSelectedString(string);
@@ -222,7 +241,10 @@ export default function App() {
           <Text style={styles.statusValue}>{selectedString.target.toFixed(1)} Hz</Text>
           <Text style={styles.statusLabel}>Detected</Text>
           <Text style={styles.statusValue}>{detectedFreq.toFixed(1)} Hz</Text>
-          <Text style={styles.statusHint}>
+          <Text
+            accessibilityLabel={`Tuning status: ${getTuningStatus(tuningOffset)} ${tuningOffset > 0 ? 'plus' : ''}${tuningOffset} hertz`}
+            style={styles.statusHint}
+          >
             Status: {getTuningStatus(tuningOffset)} ({tuningOffset > 0 ? '+' : ''}
             {tuningOffset} Hz)
           </Text>
@@ -269,7 +291,11 @@ export default function App() {
         </View>
       ))}
       {songs.map((song) => (
-        <View key={song.id} style={styles.songCard}>
+        <View
+          key={song.id}
+          accessibilityLabel={`${song.title}, ${song.level}, ${song.progress} percent progress, ${song.accuracy} percent accuracy`}
+          style={styles.songCard}
+        >
           <View style={styles.songDetails}>
             <Text style={styles.songTitle}>{song.title}</Text>
             <Text style={styles.songMeta}>
@@ -317,7 +343,10 @@ export default function App() {
 
   return (
     <View style={[styles.container, isDark && styles.darkContainer]}>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
         {renderHeader()}
         {!isHydrated && (
           <View style={styles.syncBanner}>
@@ -336,10 +365,21 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f5f7ff', paddingTop: 50 },
+  scrollContent: { paddingBottom: 24 },
   darkContainer: { backgroundColor: '#111830' },
   header: { paddingHorizontal: 16, marginBottom: 12 },
   title: { fontSize: 28, fontWeight: '800', color: '#0f172a' },
   subtitle: { marginTop: 6, fontSize: 14, color: '#334155' },
+  reviewCard: {
+    marginTop: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#dbeafe',
+    backgroundColor: '#f8fbff',
+    padding: 12,
+  },
+  reviewTitle: { fontWeight: '700', color: '#1d4ed8', marginBottom: 4 },
+  reviewText: { color: '#334155', lineHeight: 20 },
   card: { marginHorizontal: 16, marginBottom: 12, backgroundColor: '#fff', borderRadius: 14, padding: 14, borderWidth: 1, borderColor: '#e2e8f0' },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#0f172a' },
   cardSubtitle: { marginTop: 4, color: '#475569', marginBottom: 10 },

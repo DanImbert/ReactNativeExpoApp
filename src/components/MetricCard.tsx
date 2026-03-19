@@ -8,7 +8,7 @@ type MetricCardProps = {
 
 export function MetricCard({ value, label }: MetricCardProps) {
   return (
-    <View style={styles.box}>
+    <View accessibilityLabel={`${label}: ${value}`} style={styles.box}>
       <Text style={styles.value}>{value}</Text>
       <Text style={styles.label}>{label}</Text>
     </View>
