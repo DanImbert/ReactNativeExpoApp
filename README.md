@@ -18,7 +18,6 @@ This is not meant to be a production-ready app or a full clone of any existing p
 - [App.tsx](/Users/scarlettv/ReactNativeExpoApp/App.tsx): app flow and screen composition
 - [src/utils/analytics.ts](/Users/scarlettv/ReactNativeExpoApp/src/utils/analytics.ts): derived product metrics
 - [src/utils/storage.ts](/Users/scarlettv/ReactNativeExpoApp/src/utils/storage.ts): local persistence
-- Commit history: small, incremental changes rather than one large dump
 
 ## What this demo shows
 
