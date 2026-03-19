@@ -1,6 +1,6 @@
 # Musician Growth Hub
 
-A React Native + Expo application sample built to feel closer to the kind of product thinking a company like Yousician values: practice planning, instant feedback, progress tracking, and actionable learner analytics.
+A React Native + Expo practice app concept centered on planning, feedback, and progress tracking.
 
 ## What this demo shows
 
@@ -11,15 +11,12 @@ A React Native + Expo application sample built to feel closer to the kind of pro
 - Session logging and derived analytics that update across the app
 - Local persistence so learner progress survives app restarts
 
-## Why this version is stronger
+## Notes
 
-The first version looked like a single-screen concept. This version is still intentionally lightweight, but it now demonstrates better engineering judgment:
-
-- Split into reusable components and typed data models
-- Derived analytics instead of mostly static display values
-- More believable interactions across practice, tuning, and progress
-- Persisted state that makes the demo feel more like a real product
-- Clearer framing of what is real versus simulated
+- Built with reusable components and typed data models
+- Uses derived analytics instead of static summary values
+- Persists learner state locally between app restarts
+- The tuner is simulated and does not use microphone input
 
 ## Project structure
 

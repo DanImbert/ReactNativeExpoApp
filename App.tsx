@@ -144,7 +144,7 @@ export default function App() {
     <View style={styles.header}>
       <Text style={styles.title}>Musician Growth Hub</Text>
       <Text style={styles.subtitle}>
-        A tighter, more review-ready learning app concept focused on feedback, routine, and progress.
+        A compact practice app concept focused on feedback, routine, and progress.
       </Text>
       <TabBar value={view} onChange={setView} />
     </View>
@@ -153,9 +153,7 @@ export default function App() {
   const renderRoadmap = () => (
     <View style={styles.card}>
       <Text style={styles.sectionTitle}>Weekly Roadmap</Text>
-      <Text style={styles.cardSubtitle}>
-        A stronger demo shows planning, feedback loops, and a believable path from intent to habit.
-      </Text>
+      <Text style={styles.cardSubtitle}>Plan the week, track completion, and keep practice focused.</Text>
       <View style={styles.metricRow}>
         <MetricCard value={`${completedPlans}/${plans.length}`} label="Practice tasks done" />
         <MetricCard value={`${completionRate}%`} label="Roadmap completion" />
@@ -194,9 +192,7 @@ export default function App() {
   const renderTuner = () => (
     <View style={styles.card}>
       <Text style={styles.sectionTitle}>Realtime Tuner</Text>
-      <Text style={styles.cardSubtitle}>
-        Still simulated, but now it communicates tuning direction and confidence more like a real tool.
-      </Text>
+      <Text style={styles.cardSubtitle}>A simulated tuner with directional feedback and quick adjustments.</Text>
       <View style={styles.tunerPanel}>
         <Text style={styles.noteLabel}>Selected String</Text>
         <Text style={styles.noteValue}>{selectedString.name}</Text>
@@ -250,9 +246,7 @@ export default function App() {
   const renderPractice = () => (
     <View style={styles.card}>
       <Text style={styles.sectionTitle}>Practice Dashboard</Text>
-      <Text style={styles.cardSubtitle}>
-        This screen now combines songs, repetition quality, and session logging instead of static cards.
-      </Text>
+      <Text style={styles.cardSubtitle}>Track songs, recent sessions, and overall practice quality.</Text>
       <View style={styles.metricRow}>
         <MetricCard value={`${weeklyMinutes} min`} label="Weekly practice" />
         <MetricCard value={`${averageAccuracy}%`} label="Average accuracy" />
@@ -290,7 +284,7 @@ export default function App() {
         </View>
       ))}
       <View style={styles.proTip}>
-        <Text style={styles.tipTitle}>Pro tip</Text>
+        <Text style={styles.tipTitle}>Practice tip</Text>
         <Text style={styles.tipText}>
           Split each session into goal {'->'} attempt {'->'} reflection. That gives you cleaner feedback and clearer next steps.
         </Text>
@@ -301,9 +295,7 @@ export default function App() {
   const renderAnalytics = () => (
     <View style={styles.card}>
       <Text style={styles.sectionTitle}>Product Analytics</Text>
-      <Text style={styles.cardSubtitle}>
-        A reviewable sample should surface signals a product engineer would actually act on.
-      </Text>
+      <Text style={styles.cardSubtitle}>A simple summary of learner progress and practice consistency.</Text>
       <View style={styles.analyticsRow}>
         <MetricCard value={`${averageSongProgress}%`} label="Song progress avg" />
         <MetricCard value={`${weeklyMinutes} min`} label="Weekly learning time" />
@@ -313,9 +305,9 @@ export default function App() {
         <MetricCard value={`${averageAccuracy}%`} label="Average song accuracy" />
       </View>
       <View style={styles.analyticsSummary}>
-        <Text style={styles.analyticsSummaryTitle}>What I would improve next</Text>
+        <Text style={styles.analyticsSummaryTitle}>Next step</Text>
         <Text style={styles.analyticsSummaryText}>
-          If this became a fuller project, the next step would be persistence plus microphone-driven tuning so the feedback loop becomes real.
+          The next improvement would be microphone-driven tuning to make the feedback loop real.
         </Text>
       </View>
     </View>
