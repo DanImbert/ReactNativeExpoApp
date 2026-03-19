@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   ScrollView,
@@ -26,6 +26,7 @@ import {
   getTuningStatus,
   getWeeklyMinutes,
 } from './src/utils/analytics';
+import { loadAppState, saveAppState } from './src/utils/storage';
 
 export default function App() {
   const [view, setView] = useState<FocusArea>('Roadmap');
@@ -35,6 +36,7 @@ export default function App() {
   const [newPlan, setNewPlan] = useState('Build strumming consistency');
   const [selectedString, setSelectedString] = useState(strings[2]);
   const [detectedFreq, setDetectedFreq] = useState(146.8);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const completedPlans = useMemo(() => getCompletedPlans(plans), [plans]);
   const completionRate = useMemo(() => getCompletionRate(plans), [plans]);
@@ -49,6 +51,46 @@ export default function App() {
     () => getCoachMessage(plans, songs, sessions),
     [plans, songs, sessions],
   );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const hydrateApp = async () => {
+      try {
+        const persistedState = await loadAppState();
+
+        if (!isMounted) {
+          return;
+        }
+
+        setPlans(persistedState.plans);
+        setSongs(persistedState.songs);
+        setSessions(persistedState.sessions);
+      } catch (error) {
+        console.warn('Failed to hydrate app state', error);
+      } finally {
+        if (isMounted) {
+          setIsHydrated(true);
+        }
+      }
+    };
+
+    hydrateApp();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) {
+      return;
+    }
+
+    saveAppState({ plans, songs, sessions }).catch((error) => {
+      console.warn('Failed to persist app state', error);
+    });
+  }, [isHydrated, plans, songs, sessions]);
 
   const togglePlan = (id: string) => {
     setPlans((prev) => prev.map((p) => (p.id === id ? { ...p, completed: !p.completed } : p)));
@@ -285,6 +327,11 @@ export default function App() {
     <View style={[styles.container, isDark && styles.darkContainer]}>
       <ScrollView>
         {renderHeader()}
+        {!isHydrated && (
+          <View style={styles.syncBanner}>
+            <Text style={styles.syncBannerText}>Restoring your saved practice data...</Text>
+          </View>
+        )}
         {view === 'Roadmap' && renderRoadmap()}
         {view === 'Tuner' && renderTuner()}
         {view === 'Practice' && renderPractice()}
@@ -379,4 +426,15 @@ const styles = StyleSheet.create({
   },
   analyticsSummaryTitle: { fontWeight: '700', color: '#0f172a', marginBottom: 4 },
   analyticsSummaryText: { color: '#475569', lineHeight: 20 },
+  syncBanner: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    backgroundColor: '#eff6ff',
+  },
+  syncBannerText: { color: '#1d4ed8', fontWeight: '600' },
 });
