@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     marginRight: 8,
-    backgroundColor: '#eef2ff',
+    backgroundColor: '#2a2320',
     borderRadius: 10,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#c7d2fe',
+    borderColor: '#43342d',
   },
-  value: { fontWeight: '700', fontSize: 18, color: '#1d4ed8' },
-  label: { color: '#475569', fontSize: 12, marginTop: 2 },
+  value: { fontWeight: '700', fontSize: 18, color: '#ff8f57' },
+  label: { color: '#d7c0b4', fontSize: 12, marginTop: 2 },
 });

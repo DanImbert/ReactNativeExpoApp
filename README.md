@@ -4,7 +4,7 @@ A compact React Native + Expo application sample centered on practice planning, 
 
 ## Why this project exists
 
-I built this as a small, reviewable React Native sample for mobile product-engineering roles in music learning. The goal was to keep the scope intentionally limited while still showing:
+I built this as a small React Native sample focused on practice planning, feedback, and progress tracking. The goal was to keep the scope intentionally limited while still showing:
 
 - Clear stateful flows across multiple sections
 - Local persistence for learner progress

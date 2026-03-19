@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
   track: {
     height: 8,
     borderRadius: 999,
-    backgroundColor: '#dbeafe',
+    backgroundColor: '#43342d',
     overflow: 'hidden',
     marginTop: 8,
   },
   fill: {
     height: '100%',
-    backgroundColor: '#2563eb',
+    backgroundColor: '#ff7a3d',
   },
 });
