@@ -29,6 +29,18 @@ This is not meant to be a production-ready app or a full clone of any existing p
 - Session logging and derived analytics that update across the app
 - Local persistence so learner progress survives app restarts
 
+## Screenshots
+
+Add these files under `screenshots/` to render the gallery in GitHub:
+
+- `screenshots/roadmap.png`
+- `screenshots/tuner.png`
+- `screenshots/practice.png`
+
+![Roadmap](./screenshots/roadmap.png)
+![Tuner](./screenshots/tuner.png)
+![Practice](./screenshots/practice.png)
+
 ## Review notes
 
 - Built with reusable components and typed data models
