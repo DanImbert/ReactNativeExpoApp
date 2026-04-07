@@ -1,7 +1,7 @@
 {
   "name": "musician-growth-hub",
   "version": "1.0.0",
-  "description": "A recruiter-ready React Native + Expo app showcasing typed state, local persistence, analytics, and targeted tests.",
+  "description": "A polished React Native + Expo app showcasing typed state, local persistence, analytics, and targeted tests.",
   "main": "index.ts",
   "keywords": [
     "expo",

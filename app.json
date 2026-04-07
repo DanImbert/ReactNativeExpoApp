@@ -2,7 +2,7 @@
   "expo": {
     "name": "Musician Growth Hub",
     "slug": "musician-growth-hub",
-    "description": "A polished React Native + Expo portfolio app demonstrating product thinking, persistence, analytics, and testable client architecture.",
+    "description": "A polished React Native + Expo app focused on practice planning, feedback, persistence, and derived analytics.",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",

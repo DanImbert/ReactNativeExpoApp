@@ -1,16 +1,12 @@
 # Musician Growth Hub
 
-A recruiter-friendly React Native + Expo portfolio project that demonstrates product thinking, typed state management, local persistence, derived analytics, and disciplined follow-through on quality.
+A polished React Native + Expo sample focused on practice planning, feedback, persistence, and derived analytics.
 
-## Why This Project Is Worth Reviewing
+## Why Review This Project
 
-This repo is intentionally small enough to evaluate quickly and deep enough to show how I build. It is not a static UI exercise. It includes product framing, reusable components, persisted state, derived metrics, accessibility considerations, and tests around the most failure-prone logic.
+This repo is intentionally small enough to review quickly and deep enough to show real engineering judgment. It is not a static UI exercise. It includes product framing, reusable components, persisted state, derived metrics, accessibility considerations, and tests around the logic most likely to regress.
 
-If you are a hiring manager or recruiter, this project is meant to make three things obvious:
-
-- I can ship a polished cross-surface mobile experience with a clear product story.
-- I catch and fix correctness issues, not just styling issues.
-- I leave codebases in better shape by tightening copy, data modeling, migration paths, and tests together.
+The goal is simple: make it easy to evaluate how I think, how I structure code, and how I improve quality when a review surfaces real issues.
 
 ## Product Story
 
@@ -73,7 +69,7 @@ npx tsc --noEmit
 npx expo export --platform web
 ```
 
-## What A Reviewer Can Infer
+## Engineering Signals
 
 - I think about whether copy matches behavior, not just whether components render
 - I treat persistence changes carefully and add migration paths when data models evolve
