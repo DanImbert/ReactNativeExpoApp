@@ -1,56 +1,47 @@
 # Musician Growth Hub
 
-A polished React Native + Expo sample focused on practice planning, feedback, persistence, and derived analytics.
+Musician Growth Hub is a compact React Native + Expo app concept for practice planning, feedback, and progress tracking.
 
-## Why Review This Project
+## Overview
 
-This repo is intentionally small enough to review quickly and deep enough to show real engineering judgment. It is not a static UI exercise. It includes product framing, reusable components, persisted state, derived metrics, accessibility considerations, and tests around the logic most likely to regress.
+The app combines four simple surfaces:
 
-The goal is simple: make it easy to evaluate how I think, how I structure code, and how I improve quality when a review surfaces real issues.
+- a roadmap for planning practice goals
+- a simulated tuner with directional feedback
+- a practice dashboard for songs and recent sessions
+- a lightweight analytics view for progress summaries
 
-## Product Story
+The project is intentionally scoped to stay easy to review while still showing state management, local persistence, derived metrics, accessibility work, and focused test coverage.
 
-Musician Growth Hub is a practice companion concept for guitar players. The app combines a weekly roadmap, a simulated tuner, a practice dashboard, and lightweight analytics so a learner can plan sessions, get directional feedback, and track momentum over time.
+## Features
 
-The scope is intentionally constrained. Instead of spreading into backend work or authentication, the project focuses on the quality of the client experience and the clarity of the implementation.
+- Typed models for practice plans, songs, strings, and sessions
+- Local persistence with AsyncStorage
+- Derived analytics for recent activity and completion rates
+- Safe-area-aware layout and dark-shell status bar handling
+- Reusable UI components for metrics, tabs, and progress states
+- Unit tests for analytics and storage behavior
 
-## What This Demonstrates
+## Technical Notes
 
-- React Native + Expo application structure without unnecessary framework overhead
-- Typed domain models for plans, songs, strings, and practice sessions
-- Derived analytics instead of hard-coded dashboard values
-- Local persistence with backward-compatible migration handling
-- Mobile-friendly layout decisions, safe-area handling, and accessibility labels
-- Utility-level unit tests for logic that would most likely regress during iteration
+- Practice-session metrics use a real last-7-days window rather than lifetime totals.
+- Persisted session data includes a compatibility path for older saved entries that do not yet have timestamps.
+- The tuner is simulated by design so the sample stays focused on product structure and app quality rather than device APIs.
 
-## What I Improved Recently
+## Code Tour
 
-- Fixed "weekly" metrics so they now reflect a real last-7-days window rather than lifetime totals
-- Added timestamp migration logic so older persisted sessions continue to load safely
-- Replaced hard-coded top spacing with safe-area-aware layout handling
-- Aligned status-bar styling with the app’s actual dark visual shell
-- Added Jest coverage for analytics windowing and storage migration behavior
-
-## Quick Code Tour
-
-- [`App.tsx`](./App.tsx): screen composition, app state, and interaction flows
+- [`App.tsx`](./App.tsx): app flow, screen composition, and state transitions
 - [`src/components/`](./src/components): reusable UI building blocks
-- [`src/utils/analytics.ts`](./src/utils/analytics.ts): derived metrics and coaching logic
-- [`src/utils/storage.ts`](./src/utils/storage.ts): AsyncStorage persistence and legacy data normalization
-- [`src/utils/analytics.test.ts`](./src/utils/analytics.test.ts): time-window and coach-message tests
-- [`src/utils/storage.test.ts`](./src/utils/storage.test.ts): storage fallback and migration tests
+- [`src/utils/analytics.ts`](./src/utils/analytics.ts): derived metrics and coach messaging
+- [`src/utils/storage.ts`](./src/utils/storage.ts): AsyncStorage persistence and migration handling
+- [`src/utils/analytics.test.ts`](./src/utils/analytics.test.ts): analytics tests
+- [`src/utils/storage.test.ts`](./src/utils/storage.test.ts): storage tests
 
 ## Screenshots
 
 ![Roadmap](./screenshots/roadmap.png)
 ![Tuner](./screenshots/tuner.png)
 ![Practice](./screenshots/practice.png)
-
-## Engineering Notes
-
-- The tuner is intentionally simulated. I chose not to add microphone input yet so the sample stays focused and easy to review.
-- The analytics layer is small, but it is structured like production code: derived values live in utilities, and changes to persisted state include migration handling.
-- The test coverage is deliberately targeted. I prioritized the logic most likely to create user-facing correctness bugs.
 
 ## Run Locally
 
@@ -59,7 +50,11 @@ npm install
 npm start
 ```
 
-Open the project in Expo Go for mobile, or run `npm run web` for a browser preview.
+For web:
+
+```bash
+npm run web
+```
 
 ## Validation
 
@@ -69,16 +64,20 @@ npx tsc --noEmit
 npx expo export --platform web
 ```
 
-## Engineering Signals
+## Project Structure
 
-- I think about whether copy matches behavior, not just whether components render
-- I treat persistence changes carefully and add migration paths when data models evolve
-- I use tests to lock down business logic, especially when dates and stored state are involved
-- I optimize for readable code and fast technical review, which matters in team environments
+```text
+App.tsx
+src/
+  components/
+  data/
+  types/
+  utils/
+```
 
-## If I Continued This
+## Next Steps
 
 1. Add microphone-driven pitch detection for real tuner input
-2. Break the app into screen-level modules with navigation
+2. Split the app into screen-level modules with navigation
 3. Add interaction tests for key user flows
 4. Replace mock content with importable seed data or a lightweight backend
