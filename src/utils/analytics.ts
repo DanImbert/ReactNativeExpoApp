@@ -1,5 +1,22 @@
 import type { PracticePlan, PracticeSession, Song, StringTarget } from '../types/app';
 
+const getRecentWindowStart = (now: Date) => {
+  const windowStart = new Date(now);
+  windowStart.setHours(0, 0, 0, 0);
+  windowStart.setDate(windowStart.getDate() - 6);
+  return windowStart;
+};
+
+const isRecentSession = (session: PracticeSession, now: Date) => {
+  const loggedAt = new Date(session.loggedAt);
+
+  if (Number.isNaN(loggedAt.getTime())) {
+    return false;
+  }
+
+  return loggedAt >= getRecentWindowStart(now) && loggedAt <= now;
+};
+
 export const getCompletedPlans = (plans: PracticePlan[]) =>
   plans.filter((plan) => plan.completed).length;
 
@@ -11,8 +28,14 @@ export const getCompletionRate = (plans: PracticePlan[]) => {
   return Math.round((getCompletedPlans(plans) / plans.length) * 100);
 };
 
-export const getWeeklyMinutes = (sessions: PracticeSession[]) =>
-  sessions.reduce((total, session) => total + session.minutes, 0);
+export const getWeeklyMinutes = (sessions: PracticeSession[], now = new Date()) =>
+  sessions.reduce(
+    (total, session) => (isRecentSession(session, now) ? total + session.minutes : total),
+    0,
+  );
+
+export const getWeeklySessionCount = (sessions: PracticeSession[], now = new Date()) =>
+  sessions.filter((session) => isRecentSession(session, now)).length;
 
 export const getAverageSongProgress = (songs: Song[]) => {
   if (songs.length === 0) {
@@ -59,7 +82,7 @@ export const getCoachMessage = (
   }
 
   if (weeklyMinutes < 45) {
-    return 'Your accuracy is solid. Add one more short session this week to keep momentum compounding.';
+    return 'Your accuracy is solid. Add one more short session over the next few days to keep momentum compounding.';
   }
 
   return 'Great balance. You are building consistency, accuracy, and repertoire like a strong long-term learner.';

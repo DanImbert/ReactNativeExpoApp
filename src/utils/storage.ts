@@ -5,6 +5,13 @@ import type { PracticePlan, PracticeSession, Song } from '../types/app';
 
 const STORAGE_KEY = 'musician-growth-hub:v1';
 
+const createFallbackSessionDate = (index: number) => {
+  const date = new Date();
+  date.setHours(18, 0, 0, 0);
+  date.setDate(date.getDate() - index);
+  return date.toISOString();
+};
+
 export type PersistedAppState = {
   plans: PracticePlan[];
   songs: Song[];
@@ -25,11 +32,20 @@ export async function loadAppState(): Promise<PersistedAppState> {
   }
 
   const parsed = JSON.parse(rawValue) as Partial<PersistedAppState>;
+  const normalizedSessions = Array.isArray(parsed.sessions)
+    ? parsed.sessions.map((session, index) => ({
+        ...session,
+        loggedAt:
+          typeof session.loggedAt === 'string'
+            ? session.loggedAt
+            : createFallbackSessionDate(index),
+      }))
+    : initialSessions;
 
   return {
     plans: Array.isArray(parsed.plans) ? parsed.plans : initialPlans,
     songs: Array.isArray(parsed.songs) ? parsed.songs : initialSongs,
-    sessions: Array.isArray(parsed.sessions) ? parsed.sessions : initialSessions,
+    sessions: normalizedSessions,
   };
 }
 

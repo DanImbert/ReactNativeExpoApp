@@ -27,4 +27,5 @@ export type PracticeSession = {
   label: string;
   minutes: number;
   impact: 'Warmup' | 'Technique' | 'Songwork';
+  loggedAt: string;
 };

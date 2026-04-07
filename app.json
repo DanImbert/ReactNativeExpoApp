@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "ReactNativeExpoApp",
-    "slug": "reactnativeexpoapp",
+    "name": "Musician Growth Hub",
+    "slug": "musician-growth-hub",
+    "description": "A polished React Native + Expo portfolio app demonstrating product thinking, persistence, analytics, and testable client architecture.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "assetBundlePatterns": [
       "**/*"
     ],

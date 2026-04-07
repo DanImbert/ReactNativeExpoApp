@@ -2,13 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
+  Platform,
+  Pressable,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
+  StatusBar as NativeStatusBar,
   Text,
   TextInput,
   View,
-  useColorScheme,
-  Pressable,
 } from 'react-native';
 
 import { MetricCard } from './src/components/MetricCard';
@@ -25,6 +27,7 @@ import {
   getTuningOffset,
   getTuningStatus,
   getWeeklyMinutes,
+  getWeeklySessionCount,
 } from './src/utils/analytics';
 import { loadAppState, saveAppState } from './src/utils/storage';
 
@@ -41,6 +44,7 @@ export default function App() {
   const completedPlans = useMemo(() => getCompletedPlans(plans), [plans]);
   const completionRate = useMemo(() => getCompletionRate(plans), [plans]);
   const weeklyMinutes = useMemo(() => getWeeklyMinutes(sessions), [sessions]);
+  const weeklySessionCount = useMemo(() => getWeeklySessionCount(sessions), [sessions]);
   const averageSongProgress = useMemo(() => getAverageSongProgress(songs), [songs]);
   const averageAccuracy = useMemo(() => getAverageAccuracy(songs), [songs]);
   const tuningOffset = useMemo(
@@ -121,6 +125,7 @@ export default function App() {
         label: `Focused block ${prev.length + 1}`,
         minutes: 15,
         impact: prev.length % 2 === 0 ? 'Technique' : 'Songwork',
+        loggedAt: new Date().toISOString(),
       },
       ...prev,
     ]);
@@ -278,14 +283,14 @@ export default function App() {
       <Text style={styles.sectionTitle}>Practice Dashboard</Text>
       <Text style={styles.cardSubtitle}>Track songs, recent sessions, and overall practice quality.</Text>
       <View style={styles.metricRow}>
-        <MetricCard value={`${weeklyMinutes} min`} label="Weekly practice" />
+        <MetricCard value={`${weeklyMinutes} min`} label="Last 7 days" />
         <MetricCard value={`${averageAccuracy}%`} label="Average accuracy" />
       </View>
       <View style={styles.sessionCard}>
         <View style={styles.sessionSummary}>
           <Text style={styles.sessionTitle}>Recent sessions</Text>
           <Text style={styles.sessionHint}>
-            {sessions.length} logged this week with a focus on consistency over intensity.
+            {weeklySessionCount} logged in the last 7 days with a focus on consistency over intensity.
           </Text>
         </View>
         <View style={styles.sessionAction}>
@@ -331,10 +336,10 @@ export default function App() {
   const renderAnalytics = () => (
     <View style={styles.card}>
       <Text style={styles.sectionTitle}>Product Analytics</Text>
-      <Text style={styles.cardSubtitle}>A simple summary of learner progress and practice consistency.</Text>
+      <Text style={styles.cardSubtitle}>A simple summary of learner progress and recent practice consistency.</Text>
       <View style={styles.analyticsRow}>
         <MetricCard value={`${averageSongProgress}%`} label="Song progress avg" />
-        <MetricCard value={`${weeklyMinutes} min`} label="Weekly learning time" />
+        <MetricCard value={`${weeklyMinutes} min`} label="Minutes last 7d" />
       </View>
       <View style={styles.analyticsRow}>
         <MetricCard value={`${completionRate}%`} label="Plan completion" />
@@ -349,34 +354,37 @@ export default function App() {
     </View>
   );
 
-  const isDark = useColorScheme() === 'dark';
-
   return (
-    <View style={[styles.container, isDark && styles.darkContainer]}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-      >
-        {renderHeader()}
-        {!isHydrated && (
-          <View style={styles.syncBanner}>
-            <Text style={styles.syncBannerText}>Restoring your saved practice data...</Text>
-          </View>
-        )}
-        {view === 'Roadmap' && renderRoadmap()}
-        {view === 'Tuner' && renderTuner()}
-        {view === 'Practice' && renderPractice()}
-        {view === 'Analytics' && renderAnalytics()}
-      </ScrollView>
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+    <View style={styles.container}>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          {renderHeader()}
+          {!isHydrated && (
+            <View style={styles.syncBanner}>
+              <Text style={styles.syncBannerText}>Restoring your saved practice data...</Text>
+            </View>
+          )}
+          {view === 'Roadmap' && renderRoadmap()}
+          {view === 'Tuner' && renderTuner()}
+          {view === 'Practice' && renderPractice()}
+          {view === 'Analytics' && renderAnalytics()}
+        </ScrollView>
+      </SafeAreaView>
+      <StatusBar style="light" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#141210', paddingTop: 50 },
+  container: { flex: 1, backgroundColor: '#141210' },
+  safeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? NativeStatusBar.currentHeight ?? 0 : 0,
+  },
   scrollContent: { paddingBottom: 24 },
-  darkContainer: { backgroundColor: '#141210' },
   header: { paddingHorizontal: 16, marginBottom: 12 },
   title: { fontSize: 28, fontWeight: '800', color: '#fff7f2' },
   subtitle: { marginTop: 6, fontSize: 14, color: '#cbb5aa' },

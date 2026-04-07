@@ -1,5 +1,12 @@
 import type { PracticePlan, PracticeSession, Song, StringTarget } from '../types/app';
 
+const createRelativeSessionDate = (daysAgo: number, hour: number) => {
+  const date = new Date();
+  date.setHours(hour, 0, 0, 0);
+  date.setDate(date.getDate() - daysAgo);
+  return date.toISOString();
+};
+
 export const initialPlans: PracticePlan[] = [
   {
     id: 'p1',
@@ -43,7 +50,25 @@ export const strings: StringTarget[] = [
 ];
 
 export const initialSessions: PracticeSession[] = [
-  { id: 's1', label: 'Morning warm-up', minutes: 12, impact: 'Warmup' },
-  { id: 's2', label: 'Strumming cleanup', minutes: 18, impact: 'Technique' },
-  { id: 's3', label: 'Song repetition block', minutes: 24, impact: 'Songwork' },
+  {
+    id: 's1',
+    label: 'Morning warm-up',
+    minutes: 12,
+    impact: 'Warmup',
+    loggedAt: createRelativeSessionDate(0, 9),
+  },
+  {
+    id: 's2',
+    label: 'Strumming cleanup',
+    minutes: 18,
+    impact: 'Technique',
+    loggedAt: createRelativeSessionDate(2, 18),
+  },
+  {
+    id: 's3',
+    label: 'Song repetition block',
+    minutes: 24,
+    impact: 'Songwork',
+    loggedAt: createRelativeSessionDate(5, 20),
+  },
 ];

@@ -1,32 +1,48 @@
 # Musician Growth Hub
 
-A compact React Native + Expo application sample centered on practice planning, feedback, and progress tracking.
+A recruiter-friendly React Native + Expo portfolio project that demonstrates product thinking, typed state management, local persistence, derived analytics, and disciplined follow-through on quality.
 
-## Why this project exists
+## Why This Project Is Worth Reviewing
 
-I built this as a small React Native sample focused on practice planning, feedback, and progress tracking. The goal was to keep the scope intentionally limited while still showing:
+This repo is intentionally small enough to evaluate quickly and deep enough to show how I build. It is not a static UI exercise. It includes product framing, reusable components, persisted state, derived metrics, accessibility considerations, and tests around the most failure-prone logic.
 
-- Clear stateful flows across multiple sections
-- Local persistence for learner progress
-- Simple derived analytics instead of static UI
-- A codebase that is easy to read and evaluate quickly
+If you are a hiring manager or recruiter, this project is meant to make three things obvious:
 
-This is not meant to be a production-ready app or a full clone of any existing product. It is meant to be a focused sample that shows how I structure a compact React Native feature set and present it clearly.
+- I can ship a polished cross-surface mobile experience with a clear product story.
+- I catch and fix correctness issues, not just styling issues.
+- I leave codebases in better shape by tightening copy, data modeling, migration paths, and tests together.
 
-## What to look at first
+## Product Story
 
-- [App.tsx](/Users/scarlettv/ReactNativeExpoApp/App.tsx): app flow and screen composition
-- [src/utils/analytics.ts](/Users/scarlettv/ReactNativeExpoApp/src/utils/analytics.ts): derived product metrics
-- [src/utils/storage.ts](/Users/scarlettv/ReactNativeExpoApp/src/utils/storage.ts): local persistence
+Musician Growth Hub is a practice companion concept for guitar players. The app combines a weekly roadmap, a simulated tuner, a practice dashboard, and lightweight analytics so a learner can plan sessions, get directional feedback, and track momentum over time.
 
-## What this demo shows
+The scope is intentionally constrained. Instead of spreading into backend work or authentication, the project focuses on the quality of the client experience and the clarity of the implementation.
 
-- A multi-surface learner flow inside a compact Expo app
-- Practice roadmap management with completion tracking
-- A simulated tuner with direction-aware feedback
-- Song progress and accuracy tracking
-- Session logging and derived analytics that update across the app
-- Local persistence so learner progress survives app restarts
+## What This Demonstrates
+
+- React Native + Expo application structure without unnecessary framework overhead
+- Typed domain models for plans, songs, strings, and practice sessions
+- Derived analytics instead of hard-coded dashboard values
+- Local persistence with backward-compatible migration handling
+- Mobile-friendly layout decisions, safe-area handling, and accessibility labels
+- Utility-level unit tests for logic that would most likely regress during iteration
+
+## What I Improved Recently
+
+- Fixed "weekly" metrics so they now reflect a real last-7-days window rather than lifetime totals
+- Added timestamp migration logic so older persisted sessions continue to load safely
+- Replaced hard-coded top spacing with safe-area-aware layout handling
+- Aligned status-bar styling with the app’s actual dark visual shell
+- Added Jest coverage for analytics windowing and storage migration behavior
+
+## Quick Code Tour
+
+- [`App.tsx`](./App.tsx): screen composition, app state, and interaction flows
+- [`src/components/`](./src/components): reusable UI building blocks
+- [`src/utils/analytics.ts`](./src/utils/analytics.ts): derived metrics and coaching logic
+- [`src/utils/storage.ts`](./src/utils/storage.ts): AsyncStorage persistence and legacy data normalization
+- [`src/utils/analytics.test.ts`](./src/utils/analytics.test.ts): time-window and coach-message tests
+- [`src/utils/storage.test.ts`](./src/utils/storage.test.ts): storage fallback and migration tests
 
 ## Screenshots
 
@@ -34,49 +50,39 @@ This is not meant to be a production-ready app or a full clone of any existing p
 ![Tuner](./screenshots/tuner.png)
 ![Practice](./screenshots/practice.png)
 
-## Review notes
+## Engineering Notes
 
-- Built with reusable components and typed data models
-- Uses derived analytics instead of static summary values
-- Persists learner state locally between app restarts
-- Includes a small flexbox-focused layout pass with examples of `flexWrap`, `gap`, `minWidth`, and `flexGrow`
-- The tuner is simulated and does not use microphone input
-- Includes basic accessibility labels on major interactive elements
+- The tuner is intentionally simulated. I chose not to add microphone input yet so the sample stays focused and easy to review.
+- The analytics layer is small, but it is structured like production code: derived values live in utilities, and changes to persisted state include migration handling.
+- The test coverage is deliberately targeted. I prioritized the logic most likely to create user-facing correctness bugs.
 
-## Access
-
-- Mobile: run `npm start` and open the project in Expo Go
-- Web: run `npm run web`
-- No backend, authentication, or external setup required
-
-## Project structure
-
-```text
-App.tsx
-src/
-  components/
-  data/
-  types/
-  utils/
-```
-
-## Run locally
+## Run Locally
 
 ```bash
+npm install
 npm start
 ```
+
+Open the project in Expo Go for mobile, or run `npm run web` for a browser preview.
 
 ## Validation
 
 ```bash
+npm test -- --runInBand
 npx tsc --noEmit
 npx expo export --platform web
 ```
 
-## If I continued this
+## What A Reviewer Can Infer
 
-The next steps would be:
+- I think about whether copy matches behavior, not just whether components render
+- I treat persistence changes carefully and add migration paths when data models evolve
+- I use tests to lock down business logic, especially when dates and stored state are involved
+- I optimize for readable code and fast technical review, which matters in team environments
 
-1. Adding microphone-driven pitch detection for the tuner
-2. Introducing navigation and screen-level component boundaries
-3. Adding tests for analytics and key interactions
+## If I Continued This
+
+1. Add microphone-driven pitch detection for real tuner input
+2. Break the app into screen-level modules with navigation
+3. Add interaction tests for key user flows
+4. Replace mock content with importable seed data or a lightweight backend
