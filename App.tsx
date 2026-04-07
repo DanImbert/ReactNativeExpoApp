@@ -176,7 +176,9 @@ export default function App() {
           returnKeyType="done"
           onSubmitEditing={addPlan}
         />
-        <Button title="Add" onPress={addPlan} />
+        <View style={styles.addButton}>
+          <Button title="Add" onPress={addPlan} />
+        </View>
       </View>
       {plans.map((plan) => (
         <Pressable
@@ -252,12 +254,18 @@ export default function App() {
         </View>
       </View>
       <View style={styles.buttonRow}>
-        <Button
-          title="Calibrate"
-          onPress={() => setDetectedFreq(selectedString.target + (Math.random() * 2.4 - 1.2))}
-        />
-        <Button title="Nudge Flat" onPress={() => setDetectedFreq((prev) => prev - 0.6)} />
-        <Button title="Nudge Sharp" onPress={() => setDetectedFreq((prev) => prev + 0.6)} />
+        <View style={styles.buttonCell}>
+          <Button
+            title="Calibrate"
+            onPress={() => setDetectedFreq(selectedString.target + (Math.random() * 2.4 - 1.2))}
+          />
+        </View>
+        <View style={styles.buttonCell}>
+          <Button title="Nudge Flat" onPress={() => setDetectedFreq((prev) => prev - 0.6)} />
+        </View>
+        <View style={styles.buttonCell}>
+          <Button title="Nudge Sharp" onPress={() => setDetectedFreq((prev) => prev + 0.6)} />
+        </View>
       </View>
       <View style={styles.secondaryButtonRow}>
         <Button title="Practice Mode" onPress={() => setView('Practice')} />
@@ -274,13 +282,15 @@ export default function App() {
         <MetricCard value={`${averageAccuracy}%`} label="Average accuracy" />
       </View>
       <View style={styles.sessionCard}>
-        <View>
+        <View style={styles.sessionSummary}>
           <Text style={styles.sessionTitle}>Recent sessions</Text>
           <Text style={styles.sessionHint}>
             {sessions.length} logged this week with a focus on consistency over intensity.
           </Text>
         </View>
-        <Button title="Log Session" onPress={logPracticeSession} />
+        <View style={styles.sessionAction}>
+          <Button title="Log Session" onPress={logPracticeSession} />
+        </View>
       </View>
       {sessions.slice(0, 3).map((session) => (
         <View key={session.id} style={styles.sessionRow}>
@@ -383,20 +393,23 @@ const styles = StyleSheet.create({
   card: { marginHorizontal: 16, marginBottom: 12, backgroundColor: '#1d1a18', borderRadius: 14, padding: 14, borderWidth: 1, borderColor: '#332b28' },
   sectionTitle: { fontSize: 20, fontWeight: '700', color: '#fff7f2' },
   cardSubtitle: { marginTop: 4, color: '#c8b2a6', marginBottom: 10 },
-  metricRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
-  addRow: { flexDirection: 'row', marginBottom: 10, alignItems: 'center' },
-  input: { flex: 1, borderWidth: 1, borderColor: '#43342d', padding: 10, borderRadius: 9, marginRight: 8, backgroundColor: '#131110', color: '#fff7f2' },
-  planRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, justifyContent: 'space-between', padding: 10, borderColor: '#332b28', borderWidth: 1, borderRadius: 10, backgroundColor: '#24201e' },
+  // Let cards wrap and keep spacing on the parent so each card stays reusable.
+  metricRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 },
+  // `flexWrap` + `minWidth` lets the input and button stack gracefully on smaller screens.
+  addRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10, alignItems: 'stretch' },
+  addButton: { minWidth: 88, justifyContent: 'center' },
+  input: { flex: 1, minWidth: 220, borderWidth: 1, borderColor: '#43342d', padding: 10, borderRadius: 9, backgroundColor: '#131110', color: '#fff7f2' },
+  planRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, justifyContent: 'space-between', padding: 10, borderColor: '#332b28', borderWidth: 1, borderRadius: 10, backgroundColor: '#24201e', gap: 12 },
   planLeft: { flex: 1 },
   planTitle: { fontWeight: '600', color: '#fff7f2' },
   planHint: { color: '#c0aaa0', fontSize: 12, marginTop: 2 },
-  planStatus: { fontSize: 13, fontWeight: '700', color: '#fff7f2' },
+  planStatus: { fontSize: 13, fontWeight: '700', color: '#fff7f2', flexShrink: 0 },
   planStatusDone: { color: '#61c48b' },
   tunerPanel: { borderWidth: 1, borderColor: '#332b28', borderRadius: 10, padding: 12, marginBottom: 10, backgroundColor: '#24201e' },
   noteLabel: { color: '#c8b2a6', fontSize: 13 },
   noteValue: { fontSize: 30, fontWeight: '800', marginTop: 4, color: '#ff7a3d' },
-  stringRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 },
-  stringButton: { borderWidth: 1, borderColor: '#43342d', borderRadius: 8, paddingVertical: 6, paddingHorizontal: 10, marginRight: 6, marginBottom: 6, backgroundColor: '#161413' },
+  stringRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10 },
+  stringButton: { borderWidth: 1, borderColor: '#43342d', borderRadius: 8, paddingVertical: 6, paddingHorizontal: 10, minWidth: 82, alignItems: 'center', backgroundColor: '#161413' },
   stringButtonActive: { backgroundColor: '#ff7a3d', borderColor: '#ff7a3d' },
   stringText: { color: '#fff7f2', fontWeight: '600' },
   stringTextActive: { color: '#fff' },
@@ -404,7 +417,9 @@ const styles = StyleSheet.create({
   statusLabel: { fontSize: 12, color: '#c8b2a6' },
   statusValue: { fontSize: 18, fontWeight: '700', marginBottom: 4, color: '#fff7f2' },
   statusHint: { color: '#fff7f2', fontWeight: '600' },
-  buttonRow: { marginTop: 8, flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
+  // Each button cell can grow, but its minimum width prevents cramped controls.
+  buttonRow: { marginTop: 8, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  buttonCell: { flexGrow: 1, minWidth: 140 },
   secondaryButtonRow: { marginTop: 8, alignSelf: 'flex-start' },
   coachCard: {
     marginTop: 10,
@@ -425,10 +440,15 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: 12,
     alignItems: 'center',
   },
+  // `flex: 1` fills leftover row space, while `minWidth` gives wrapping a sensible breakpoint.
+  sessionSummary: { flex: 1, minWidth: 180 },
+  sessionAction: { minWidth: 120 },
   sessionTitle: { fontWeight: '700', color: '#fff7f2' },
-  sessionHint: { marginTop: 2, color: '#c0aaa0', maxWidth: 200 },
+  sessionHint: { marginTop: 2, color: '#c0aaa0' },
   sessionRow: {
     borderWidth: 1,
     borderColor: '#332b28',
@@ -439,16 +459,17 @@ const styles = StyleSheet.create({
   },
   sessionRowTitle: { fontWeight: '600', color: '#fff7f2' },
   sessionRowMeta: { fontSize: 12, color: '#c0aaa0', marginTop: 2 },
-  songCard: { borderWidth: 1, borderColor: '#332b28', borderRadius: 10, padding: 10, marginBottom: 8, backgroundColor: '#24201e', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  songDetails: { flex: 1, paddingRight: 10 },
-  songAction: { alignItems: 'flex-end', minWidth: 88 },
+  songCard: { borderWidth: 1, borderColor: '#332b28', borderRadius: 10, padding: 10, marginBottom: 8, backgroundColor: '#24201e', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 },
+  // Keep the text block flexible so the action area can move below it when space gets tight.
+  songDetails: { flex: 1, minWidth: 180 },
+  songAction: { alignItems: 'flex-end', minWidth: 88, marginLeft: 'auto', gap: 6 },
   songTitle: { fontWeight: '700', color: '#fff7f2' },
   songMeta: { fontSize: 12, color: '#c0aaa0' },
   songProgress: { fontWeight: '700', color: '#fff7f2' },
   proTip: { marginTop: 10, borderRadius: 10, borderWidth: 1, borderColor: '#43342d', backgroundColor: '#24201e', padding: 10 },
   tipTitle: { fontWeight: '700', color: '#ff8f57' },
   tipText: { color: '#dfc8bc', marginTop: 4 },
-  analyticsRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
+  analyticsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   analyticsSummary: {
     marginTop: 8,
     borderRadius: 10,

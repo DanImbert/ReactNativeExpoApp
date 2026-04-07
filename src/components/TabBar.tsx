@@ -31,16 +31,18 @@ export function TabBar({ value, onChange }: TabBarProps) {
 }
 
 const styles = StyleSheet.create({
-  tabRow: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 14 },
+  tabRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14 },
   tab: {
-    marginRight: 8,
-    marginBottom: 8,
+    // `flexGrow` makes each tab share available row space without forcing a fixed width.
+    flexGrow: 1,
+    minWidth: 120,
     borderWidth: 1,
     borderColor: '#4c3a31',
     borderRadius: 999,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: '#25201d',
+    alignItems: 'center',
   },
   activeTab: { backgroundColor: '#ff7a3d', borderColor: '#ff7a3d' },
   tabText: { color: '#f3ded4', fontWeight: '600' },

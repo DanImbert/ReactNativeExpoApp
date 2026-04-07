@@ -39,6 +39,7 @@ This is not meant to be a production-ready app or a full clone of any existing p
 - Built with reusable components and typed data models
 - Uses derived analytics instead of static summary values
 - Persists learner state locally between app restarts
+- Includes a small flexbox-focused layout pass with examples of `flexWrap`, `gap`, `minWidth`, and `flexGrow`
 - The tuner is simulated and does not use microphone input
 - Includes basic accessibility labels on major interactive elements
 
@@ -63,6 +64,13 @@ src/
 
 ```bash
 npm start
+```
+
+## Validation
+
+```bash
+npx tsc --noEmit
+npx expo export --platform web
 ```
 
 ## If I continued this

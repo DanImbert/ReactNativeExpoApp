@@ -17,8 +17,10 @@ export function MetricCard({ value, label }: MetricCardProps) {
 
 const styles = StyleSheet.create({
   box: {
+    // `flexBasis` starts sibling cards at equal width; `minWidth` decides when they wrap.
     flex: 1,
-    marginRight: 8,
+    minWidth: 140,
+    flexBasis: 0,
     backgroundColor: '#2a2320',
     borderRadius: 10,
     padding: 10,
