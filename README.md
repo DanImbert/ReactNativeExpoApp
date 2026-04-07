@@ -18,9 +18,11 @@ The project is intentionally scoped to stay easy to review while still showing s
 - Typed models for practice plans, songs, strings, and sessions
 - Local persistence with AsyncStorage
 - Derived analytics for recent activity and completion rates
+- Screen-level components for roadmap, tuner, practice, and analytics flows
 - Safe-area-aware layout and dark-shell status bar handling
 - Reusable UI components for metrics, tabs, and progress states
-- Unit tests for analytics and storage behavior
+- Utility tests for analytics and storage behavior
+- Interaction tests for roadmap and practice flows
 
 ## Technical Notes
 
@@ -30,10 +32,13 @@ The project is intentionally scoped to stay easy to review while still showing s
 
 ## Code Tour
 
-- [`App.tsx`](./App.tsx): app flow, screen composition, and state transitions
+- [`App.tsx`](./App.tsx): app shell, shared state, and screen orchestration
 - [`src/components/`](./src/components): reusable UI building blocks
+- [`src/screens/`](./src/screens): screen-level UI modules
+- [`src/styles/appStyles.ts`](./src/styles/appStyles.ts): shared visual system for the app shell and screens
 - [`src/utils/analytics.ts`](./src/utils/analytics.ts): derived metrics and coach messaging
 - [`src/utils/storage.ts`](./src/utils/storage.ts): AsyncStorage persistence and migration handling
+- [`App.test.tsx`](./App.test.tsx): interaction tests for key app flows
 - [`src/utils/analytics.test.ts`](./src/utils/analytics.test.ts): analytics tests
 - [`src/utils/storage.test.ts`](./src/utils/storage.test.ts): storage tests
 
@@ -71,6 +76,8 @@ App.tsx
 src/
   components/
   data/
+  screens/
+  styles/
   types/
   utils/
 ```
@@ -78,6 +85,6 @@ src/
 ## Next Steps
 
 1. Add microphone-driven pitch detection for real tuner input
-2. Split the app into screen-level modules with navigation
-3. Add interaction tests for key user flows
+2. Introduce navigation between dedicated screens
+3. Expand interaction coverage to the tuner and analytics flows
 4. Replace mock content with importable seed data or a lightweight backend

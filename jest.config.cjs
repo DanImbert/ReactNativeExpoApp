@@ -1,8 +1,6 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  preset: 'jest-expo',
   clearMocks: true,
-  roots: ['<rootDir>/src'],
-  testMatch: ['**/*.test.ts'],
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  testMatch: ['**/*.test.ts', '**/*.test.tsx'],
+  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/'],
 };
